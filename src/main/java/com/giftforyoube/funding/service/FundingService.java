@@ -54,31 +54,16 @@ public class FundingService {
                 .build();
     }
 
-//    @Transactional
-//    public FundingResponseDto saveToDatabase(FundingCreateRequestDto requestDto) {
-//        FundingItem fundingItem = getCachedFundingProduct();
-//        if (fundingItem == null) {
-//            throw new IllegalStateException("No cached funding item found.");
-//        }
-//        LocalDate currentDate = LocalDate.now();
-//        FundingStatus status = requestDto.getEndDate().isBefore(currentDate) ? FundingStatus.FINISHED : FundingStatus.ACTIVE;
-//        Funding funding = requestDto.toEntity(fundingItem,status);
-//        fundingRepository.save(funding);
-//        clearCache();
-//        return FundingResponseDto.fromEntity(funding);
-//    }
-
     //S3 이미지 업로드방식
     @Transactional
     public FundingResponseDto saveToDatabase(FundingCreateRequestDto requestDto, String mainImage) throws IOException {
         LocalDate currentDate = LocalDate.now();
         FundingStatus status = requestDto.getEndDate().isBefore(currentDate) ? FundingStatus.FINISHED : FundingStatus.ACTIVE;
-        Funding funding;
+
+        Funding funding = requestDto.toEntity(null, status);
         if (mainImage != null) {
             URL mainImageUrl = new URL(mainImage);
             funding = requestDto.toEntity(mainImageUrl, status);
-        } else {
-            funding = requestDto.toEntity(null, status);
         }
         fundingRepository.save(funding);
         clearCache();

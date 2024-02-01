@@ -37,16 +37,6 @@ public class FundingController {
         }
     }
 
-    // 펀딩 상세 정보 입력 및 DB 저장 요청 처리
-//    @PostMapping("/create")
-//    public ResponseEntity<?> createFunding(@RequestBody FundingCreateRequestDto requestDto) {
-//        try {
-//            FundingResponseDto responseDto = fundingService.saveToDatabase(requestDto);
-//            return ResponseEntity.ok(responseDto);
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating funding: " + e.getMessage());
-//        }
-//    }
     // 펀딩 상세 정보 입력 및 DB 저장 요청 처리(이미지 업로드 방식)
     @PostMapping("/create")
     public ResponseEntity<?> createFunding(
