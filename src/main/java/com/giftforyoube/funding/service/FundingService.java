@@ -15,8 +15,10 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -27,6 +29,7 @@ public class FundingService {
 
     private final RedisTemplate<String, Object> redisTemplate;
     private final FundingRepository fundingRepository;
+    private final ImageS3Service imageS3Service;
 
     private static final int TIMEOUT = 10000; // 10초
 
@@ -50,15 +53,30 @@ public class FundingService {
                 .build();
     }
 
-    @Transactional
-    public FundingResponseDto saveToDatabase(FundingCreateRequestDto requestDto) {
-        FundingItem fundingItem = getCachedFundingProduct();
-        if (fundingItem == null) {
-            throw new IllegalStateException("No cached funding item found.");
-        }
+//    @Transactional
+//    public FundingResponseDto saveToDatabase(FundingCreateRequestDto requestDto) {
+//        FundingItem fundingItem = getCachedFundingProduct();
+//        if (fundingItem == null) {
+//            throw new IllegalStateException("No cached funding item found.");
+//        }
+//        LocalDate currentDate = LocalDate.now();
+//        FundingStatus status = requestDto.getEndDate().isBefore(currentDate) ? FundingStatus.FINISHED : FundingStatus.ACTIVE;
+//        Funding funding = requestDto.toEntity(fundingItem,status);
+//        fundingRepository.save(funding);
+//        clearCache();
+//        return FundingResponseDto.fromEntity(funding);
+//    }
+
+    //S3 이미지 업로드방식
+    public FundingResponseDto saveToDatabase(FundingCreateRequestDto requestDto, MultipartFile imageFile) throws IOException {
         LocalDate currentDate = LocalDate.now();
         FundingStatus status = requestDto.getEndDate().isBefore(currentDate) ? FundingStatus.FINISHED : FundingStatus.ACTIVE;
-        Funding funding = requestDto.toEntity(fundingItem,status);
+
+        //이미지 업로드
+        String mainImage = imageS3Service.saveFile(imageFile);
+        URL mainImageUrl = new URL(mainImage);
+
+        Funding funding = requestDto.toEntity(mainImageUrl,status);
         fundingRepository.save(funding);
         clearCache();
         return FundingResponseDto.fromEntity(funding);

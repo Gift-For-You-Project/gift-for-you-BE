@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -33,10 +34,23 @@ public class FundingController {
     }
 
     // 펀딩 상세 정보 입력 및 DB 저장 요청 처리
+//    @PostMapping("/create")
+//    public ResponseEntity<?> createFunding(@RequestBody FundingCreateRequestDto requestDto) {
+//        try {
+//            FundingResponseDto responseDto = fundingService.saveToDatabase(requestDto);
+//            return ResponseEntity.ok(responseDto);
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating funding: " + e.getMessage());
+//        }
+//    }
+    // 펀딩 상세 정보 입력 및 DB 저장 요청 처리(이미지 업로드 방식)
     @PostMapping("/create")
-    public ResponseEntity<?> createFunding(@RequestBody FundingCreateRequestDto requestDto) {
+    public ResponseEntity<?> createFunding(
+            @RequestPart(value = "imageFile") MultipartFile imageFile,
+            @RequestBody FundingCreateRequestDto requestDto
+    ) {
         try {
-            FundingResponseDto responseDto = fundingService.saveToDatabase(requestDto);
+            FundingResponseDto responseDto = fundingService.saveToDatabase(requestDto, imageFile);
             return ResponseEntity.ok(responseDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating funding: " + e.getMessage());

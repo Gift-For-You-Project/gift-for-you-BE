@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.net.URL;
 import java.time.LocalDate;
 
 @Getter
@@ -31,9 +32,10 @@ public class Funding {
     private LocalDate endDate;
     @Enumerated(EnumType.STRING)
     private FundingStatus status;
+    private URL imageFile;
 
     @Builder
-    public Funding(String itemLink, String itemImage, String itemName, String title, String content, int currentAmount, int targetAmount, boolean publicFlag, LocalDate endDate,FundingStatus status) {
+    public Funding(String itemLink, String itemImage, String itemName, String title, String content, int currentAmount, int targetAmount, boolean publicFlag, LocalDate endDate,FundingStatus status,URL imageFile) {
         this.itemLink = itemLink;
         this.itemImage = itemImage;
         this.itemName = itemName;
@@ -44,5 +46,6 @@ public class Funding {
         this.publicFlag = publicFlag;
         this.endDate = endDate;
         this.status = status;
+        this.imageFile = imageFile;
     }
 }

@@ -5,6 +5,7 @@ import com.giftforyoube.funding.entity.FundingStatus;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.net.URL;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
@@ -24,9 +25,10 @@ public class FundingResponseDto {
     private String dDay;
     private FundingStatus status;
     private int achievementRate;
+    private URL imageFile;
 
     @Builder
-    public FundingResponseDto(Long id, String itemLink, String itemImage, String itemName, String title, String content, int currentAmount, int targetAmount, boolean publicFlag, LocalDate endDate,String dDay,FundingStatus status) {
+    public FundingResponseDto(Long id, String itemLink, String itemImage, String itemName, String title, String content, int currentAmount, int targetAmount, boolean publicFlag, LocalDate endDate,String dDay,FundingStatus status,URL imageFile) {
         this.id = id;
         this.itemLink = itemLink;
         this.itemImage = itemImage;
@@ -38,6 +40,7 @@ public class FundingResponseDto {
         this.publicFlag = publicFlag;
         this.endDate = endDate;
         this.dDay = dDay;
+        this.imageFile = imageFile;
         this.status = status;
         this.achievementRate = calculatorAchievementRate(currentAmount,targetAmount);
     }
@@ -68,6 +71,7 @@ public class FundingResponseDto {
                 .targetAmount(funding.getTargetAmount())
                 .publicFlag(funding.isPublicFlag())
                 .endDate(funding.getEndDate())
+                .imageFile(funding.getImageFile())
                 .dDay(dDay)
                 .status(funding.getStatus())
                 .build();
