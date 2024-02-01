@@ -43,8 +43,7 @@ public class FundingCreateRequestDto {
 //                .build();
 //    }
 
-//    이미지 업로드
-
+    //    이미지 업로드
     public Funding toEntity(URL imageFile, FundingStatus status) {
         return Funding.builder()
                 .itemName(this.itemName)
@@ -58,35 +57,4 @@ public class FundingCreateRequestDto {
                 .status(status)
                 .build();
     }
-
-    public Funding toEntity(FundingStatus status) {
-        return Funding.builder()
-                .itemName(this.itemName)
-                .title(this.title)
-                .content(this.content)
-                .currentAmount(0)
-                .targetAmount(this.targetAmount)
-                .publicFlag(this.publicFlag)
-                .endDate(this.getEndDate())
-                .imageFile(null)
-                .status(status)
-                .build();
-    }
-
-
-//    public Funding toEntity(String imageFile, FundingStatus status) {
-//        FundingBuilder builder = Funding.builder()
-//                .itemName(this.itemName)
-//                .title(this.title)
-//                .content(this.content)
-//                .currentAmount(0)
-//                .targetAmount(this.targetAmount)
-//                .publicFlag(this.publicFlag)
-//                .endDate(this.getEndDate())
-//                .status(status);
-//        if (imageFile != null) {
-//            builder.imageFile(imageFile);
-//        }
-//        return builder.build();
-//    }
 }

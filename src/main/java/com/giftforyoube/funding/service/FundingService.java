@@ -78,7 +78,7 @@ public class FundingService {
             URL mainImageUrl = new URL(mainImage);
             funding = requestDto.toEntity(mainImageUrl, status);
         } else {
-            funding = requestDto.toEntity(status);
+            funding = requestDto.toEntity(null, status);
         }
         fundingRepository.save(funding);
         clearCache();
