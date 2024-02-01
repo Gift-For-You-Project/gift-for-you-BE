@@ -6,12 +6,15 @@ import com.giftforyoube.funding.dto.FundingResponseDto;
 import com.giftforyoube.funding.entity.Funding;
 import com.giftforyoube.funding.entity.FundingItem;
 import com.giftforyoube.funding.service.FundingService;
+import com.giftforyoube.funding.service.ImageS3Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.URL;
 import java.util.List;
 
 @RestController
@@ -20,6 +23,7 @@ import java.util.List;
 public class FundingController {
 
     private final FundingService fundingService;
+    private final ImageS3Service imageS3Service;
 
     // 링크 추가 및 캐시 저장 요청 처리
     @PostMapping("/addLink")
@@ -46,11 +50,16 @@ public class FundingController {
     // 펀딩 상세 정보 입력 및 DB 저장 요청 처리(이미지 업로드 방식)
     @PostMapping("/create")
     public ResponseEntity<?> createFunding(
-            @RequestPart(value = "imageFile") MultipartFile imageFile,
-            @RequestBody FundingCreateRequestDto requestDto
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile,
+            @RequestPart(value = "data") FundingCreateRequestDto requestDto
     ) {
         try {
-            FundingResponseDto responseDto = fundingService.saveToDatabase(requestDto, imageFile);
+            String mainImage = null;
+            if (imageFile != null && !imageFile.isEmpty()) {
+                // 이미지 파일이 제공된 경우에만 이미지 업로드 및 처리를 수행합니다.
+                mainImage = imageS3Service.saveFile(imageFile);
+            }
+            FundingResponseDto responseDto = fundingService.saveToDatabase(requestDto, mainImage);
             return ResponseEntity.ok(responseDto);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating funding: " + e.getMessage());

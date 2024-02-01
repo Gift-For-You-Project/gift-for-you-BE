@@ -19,7 +19,7 @@ public class FundingCreateRequestDto {
     private int targetAmount;
     private boolean publicFlag;
     private LocalDate endDate;
-    private MultipartFile imageFile;
+    private URL imageFile;
 
     // 생성자, Getter, Setter 등 필요한 메서드를 추가할 수 있습니다.
 
@@ -27,22 +27,24 @@ public class FundingCreateRequestDto {
         // 기본 생성자
     }
 
-    public Funding toEntity(FundingItem fundingItem, FundingStatus status) {
-        return Funding.builder()
-                .itemLink(fundingItem.getItemLink())
-                .itemImage(fundingItem.getItemImage())
-                .itemName(this.itemName)
-                .title(this.title)
-                .content(this.content)
-                .currentAmount(0)
-                .targetAmount(this.targetAmount)
-                .publicFlag(this.publicFlag)
-                .endDate(this.getEndDate())
-                .status(status)
-                .build();
-    }
+//    public Funding toEntity(FundingItem fundingItem, FundingStatus status, URL imageUrl) {
+//        return Funding.builder()
+//                .itemLink(fundingItem.getItemLink())
+//                .itemImage(fundingItem.getItemImage())
+//                .itemName(this.itemName)
+//                .title(this.title)
+//                .content(this.content)
+//                .currentAmount(0)
+//                .targetAmount(this.targetAmount)
+//                .publicFlag(this.publicFlag)
+//                .endDate(this.getEndDate())
+//                .imageFile(imageUrl)
+//                .status(status)
+//                .build();
+//    }
 
-    //이미지 업로드
+//    이미지 업로드
+
     public Funding toEntity(URL imageFile, FundingStatus status) {
         return Funding.builder()
                 .itemName(this.itemName)
@@ -56,4 +58,35 @@ public class FundingCreateRequestDto {
                 .status(status)
                 .build();
     }
+
+    public Funding toEntity(FundingStatus status) {
+        return Funding.builder()
+                .itemName(this.itemName)
+                .title(this.title)
+                .content(this.content)
+                .currentAmount(0)
+                .targetAmount(this.targetAmount)
+                .publicFlag(this.publicFlag)
+                .endDate(this.getEndDate())
+                .imageFile(null)
+                .status(status)
+                .build();
+    }
+
+
+//    public Funding toEntity(String imageFile, FundingStatus status) {
+//        FundingBuilder builder = Funding.builder()
+//                .itemName(this.itemName)
+//                .title(this.title)
+//                .content(this.content)
+//                .currentAmount(0)
+//                .targetAmount(this.targetAmount)
+//                .publicFlag(this.publicFlag)
+//                .endDate(this.getEndDate())
+//                .status(status);
+//        if (imageFile != null) {
+//            builder.imageFile(imageFile);
+//        }
+//        return builder.build();
+//    }
 }

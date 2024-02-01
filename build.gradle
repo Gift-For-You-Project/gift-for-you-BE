@@ -35,6 +35,7 @@ dependencies {
 //    testImplementation 'org.springframework.security:spring-security-test'
     // aws s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.188'
     implementation 'javax.xml.bind:jaxb-api:2.3.1'
 }
 

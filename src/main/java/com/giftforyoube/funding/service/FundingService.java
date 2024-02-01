@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.List;
@@ -68,15 +69,17 @@ public class FundingService {
 //    }
 
     //S3 이미지 업로드방식
-    public FundingResponseDto saveToDatabase(FundingCreateRequestDto requestDto, MultipartFile imageFile) throws IOException {
+    @Transactional
+    public FundingResponseDto saveToDatabase(FundingCreateRequestDto requestDto, String mainImage) throws IOException {
         LocalDate currentDate = LocalDate.now();
         FundingStatus status = requestDto.getEndDate().isBefore(currentDate) ? FundingStatus.FINISHED : FundingStatus.ACTIVE;
-
-        //이미지 업로드
-        String mainImage = imageS3Service.saveFile(imageFile);
-        URL mainImageUrl = new URL(mainImage);
-
-        Funding funding = requestDto.toEntity(mainImageUrl,status);
+        Funding funding;
+        if (mainImage != null) {
+            URL mainImageUrl = new URL(mainImage);
+            funding = requestDto.toEntity(mainImageUrl, status);
+        } else {
+            funding = requestDto.toEntity(status);
+        }
         fundingRepository.save(funding);
         clearCache();
         return FundingResponseDto.fromEntity(funding);
