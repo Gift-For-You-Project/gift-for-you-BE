@@ -2,7 +2,6 @@ package com.giftforyoube.notification.controller;
 
 import com.giftforyoube.global.security.UserDetailsImpl;
 import com.giftforyoube.notification.dto.NotificationResponseDto;
-import com.giftforyoube.notification.entity.NotificationType;
 import com.giftforyoube.notification.service.NotificationService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +41,7 @@ public class NotificationController {
     public ResponseEntity<SseEmitter> sseConnect(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                  @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId,
                                                  HttpServletResponse response) {
-        return new ResponseEntity<>(notificationService.sseSubscribe(userDetails.getUsername(),lastEventId, response), HttpStatus.OK);
+        return new ResponseEntity<>(notificationService.subscribeAlarm(userDetails.getUsername(),lastEventId, response), HttpStatus.OK);
     }
 
     // 전체 알림 조회 API

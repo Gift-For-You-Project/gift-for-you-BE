@@ -22,12 +22,6 @@ repositories {
 }
 
 dependencies {
-	// java mail
-	implementation 'org.springframework.boot:spring-boot-starter-mail'
-
-	// thymeleaf
-	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-
 	compileOnly group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
 	runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
