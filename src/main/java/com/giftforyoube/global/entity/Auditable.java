@@ -18,10 +18,10 @@ import java.time.temporal.ChronoUnit;
 public abstract class Auditable {
 
     @CreatedDate
-//    @Column(updatable = false, nullable = false)
+    @Column(updatable = false, nullable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-//    @Column
+    @Column
     private LocalDateTime modifiedAt;
 }
