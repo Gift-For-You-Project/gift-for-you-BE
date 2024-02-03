@@ -79,9 +79,6 @@ public class NotificationService {
 
         // 왜 유저당 단일 emitter 객체가 아닌 여러 emitter가 존재하는가?
         // -> 모바일, PC 웹 등 여러 환경에서 접속할 경우 여러 emitter가 생길 수 있다.
-
-        // emitter가 여러개면 하나의 event가 발생했을때 중복으로 알림이 발생하지않나?
-        //TODO -> alreadyNotified 메서드를 추가해 조건문을 걸어줘서 이미 동일한 알림이 발생했는지 확인이 필요할 것
         emitters.forEach(
                 (emitterId, emitter) -> {
                     emitterRepository.saveEventCache(emitterId, saveNotification);
@@ -95,7 +92,7 @@ public class NotificationService {
         try {
             mailingService.sendNotificationEmail(saveNotification);
         } catch (MessagingException e) {
-            throw new RuntimeException(e);
+            throw new BaseException(BaseResponseStatus.EMAIL_SEND_FAILURE);
         }
     }
 
@@ -129,6 +126,7 @@ public class NotificationService {
             );
         } catch (IOException exception) {
             emitterRepository.deleteById(emitterId);
+            throw new BaseException(BaseResponseStatus.SEND_FAILURE);
         }
     }
 

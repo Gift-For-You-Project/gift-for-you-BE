@@ -45,6 +45,8 @@ public enum BaseResponseStatus {
     NOTIFICATION_NOT_FOUND(false, 4000, "알림을 찾을 수 없습니다."),
     NOTIFICATION_NOT_READ(false, 4000, "알림을 읽지 못했습니다."),
     NOTIFICATION_NOT_DELETED(false, 4000, "알림을 삭제할 수 없습니다."),
+    SEND_FAILURE(false, 4000, "메세지 전송에 실패하였습니다."),
+    EMAIL_SEND_FAILURE(false, 4000, "이메일 발송에 실패하였습니다."),
     UNAUTHORIZED_READ_NOTIFICATION(false, 4000, "알림 조회 권한이 없습니다."),
     UNAUTHORIZED_DELETE_NOTIFICATION(false, 4000, "알림 삭제 권한이 없습니다."),
 

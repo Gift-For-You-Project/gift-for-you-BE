@@ -42,6 +42,7 @@ public class NotificationController {
     public ResponseEntity<SseEmitter> sseConnect(@AuthenticationPrincipal UserDetailsImpl userDetails,
                                                  @RequestHeader(value = "Last-Event-ID", required = false, defaultValue = "") String lastEventId,
                                                  HttpServletResponse response) {
+        // 사용자가 구독을 요청하면 SseEmitter를 생성하고 응답으로 반환합니다.
         return new ResponseEntity<>(notificationService.sseSubscribe(userDetails.getUsername(),lastEventId, response), HttpStatus.OK);
     }
 
