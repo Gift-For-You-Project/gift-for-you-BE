@@ -20,7 +20,9 @@ public enum BaseResponseStatus {
     DELETE_ACCOUNT_SUCCESS(true, 2000, "회원탈퇴가 완료되었습니다."),
 
     // 1-2 펀딩 관련
-    FUNDING_ITEM_LINK_SUCCESS(true, 2000, "펀딩 아이템이 저장되었습니다."),
+    ADD_LINK_SUCCESS(true, 2000, "상품 링크가 추가되었습니다."),
+    FUNDING_CREAT_SUCCESS(true,2000,"펀딩 생성이 완료되었습니다."),
+    LINK_CACHED_SUCCESS(true,2000,"상품 링크 캐쉬 저장이 완료되었습니다."),
 
     // 1-3. 후원
     DONATION_SUCCESS(true, 2000, "후원 결제가 완료되었습니다."),
@@ -64,6 +66,10 @@ public enum BaseResponseStatus {
     UNAUTHORIZED_UPDATE_FUNDING(false, 4000, "펀딩 수정 권한이 없습니다."),
     UNAUTHORIZED_DELETE_FUNDING(false, 4000, "펀딩 삭제 권한이 없습니다."),
     UNAUTHORIZED_READ_FUNDING(false, 4000, "펀딩 조회 권한이 없습니다."),
+
+    // 2-5. 캐쉬
+    LOCK_ACQUISITION_FAILED(false,4000,"해당 사용자에 대한 락을 획득할 수 없습니다."),
+    LINK_CACHED_FAILED(false,4000,"상품 링크 캐쉬 저장에 실패하였습니다."),
 
     /**
      * 3. 서버 에러가 발생한 경우(5000)
