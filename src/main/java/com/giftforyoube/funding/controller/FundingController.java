@@ -69,18 +69,6 @@ public class FundingController {
         return ResponseEntity.ok(fundingResponseDto);
     }
 
-    @GetMapping("")
-    public ResponseEntity<Page<FundingResponseDto>> getActiveMainFunding(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "6") int size,
-            @RequestParam(defaultValue = "createdAt") String sortBy,
-            @RequestParam(defaultValue = "desc") String sortOrder
-    ){
-        log.info("[getActiveFunding] 메인페이지 진행중인 펀딩 조회");
-
-        Page<FundingResponseDto> activeFundingsPage = fundingService.getActiveMainFunding(page, size, sortBy, sortOrder);
-        return ResponseEntity.ok(activeFundingsPage);
-    }
 
     // Slice - Page 페이지네이션 수정 적용
     @GetMapping("/all")

@@ -20,7 +20,7 @@ public interface FundingRepository extends JpaRepository<Funding, Long> {
     Page<Funding> findAll(Pageable pageable);
     @Query("SELECT f FROM Funding f WHERE f.publicFlag = true")
     Page<Funding> findAllAndPublicFlagTrue(Pageable pageable);
-    Slice<Funding> findByStatus(FundingStatus fundingStatus, Pageable pageable);
+    Page<Funding> findByStatus(FundingStatus fundingStatus, Pageable pageable);
     @Query("SELECT f FROM Funding f WHERE f.status = :status AND f.publicFlag = true")
     Slice<Funding> findByStatusAndPublicFlagTrue(@Param("status") FundingStatus fundingStatus, Pageable pageable);
     List<Funding> findByEndDateLessThanEqualAndStatus(LocalDate currentDate, FundingStatus fundingStatus);

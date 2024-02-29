@@ -88,6 +88,27 @@ public class FundingService {
         return FundingResponseDto.fromEntity(funding);
     }
 
+    @Transactional(readOnly = true)
+    public Page<FundingResponseDto> getActiveFundings(int page, int size, String sortBy, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortOrder.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy));
+        Page<Funding> fundings = fundingRepository.findByStatus(FundingStatus.ACTIVE, pageable);
+        return fundings.map(FundingResponseDto::fromEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<FundingResponseDto> getFinishedFundings(int page, int size, String sortBy, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortOrder.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy));
+        Page<Funding> fundings = fundingRepository.findByStatus(FundingStatus.FINISHED, pageable);
+        return fundings.map(FundingResponseDto::fromEntity);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<FundingResponseDto> getAllFundings(int page, int size, String sortBy, String sortOrder) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortOrder.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC, sortBy));
+        Page<Funding> fundings = fundingRepository.findAll(pageable);
+        return fundings.map(FundingResponseDto::fromEntity);
+    }
+
     @Transactional
     public void finishFunding(Long fundingId, User currentUser) {
         Funding funding = fundingRepository.findById(fundingId)
